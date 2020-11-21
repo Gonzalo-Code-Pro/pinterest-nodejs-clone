@@ -22,4 +22,7 @@ router.get("/image/:id/delete", (req, res) => {
   res.send("Image deleted");
 });
 //este es un cambio
+//
+//
+//este es un segundocambio xd
 module.exports = router;
