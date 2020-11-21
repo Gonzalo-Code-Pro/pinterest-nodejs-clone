@@ -21,5 +21,5 @@ router.get("/image/:id", (req, res) => {
 router.get("/image/:id/delete", (req, res) => {
   res.send("Image deleted");
 });
-
+//este es un cambio
 module.exports = router;
