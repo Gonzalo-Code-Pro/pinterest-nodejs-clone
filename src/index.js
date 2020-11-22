@@ -4,6 +4,7 @@ const app = express(); //funcion express
 const morgan = require("morgan"); //musetra informacion de un peticion http
 const multer = require("multer"); //modulo para la subida de imagenes
 const { v4: uuidv4 } = require("uuid");
+const database = require("./database");
 //Initializations
 
 app.set("port", process.env.PORT || 4000);
@@ -15,7 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 
 const storage = multer.diskStorage({
   //funcion que se ejecutara cuando se suba y guarde una imagen
-  destination: path.join(__dirname, "public/img/uploads"),
+  destination: path.join(__dirname, "public/img/uploads/"),
   filename: (req, file, cb, filename) => {
     cb(null, uuidv4() + path.extname(file.originalname)); //concatenamos el id + la extension del archivo con extanme
   },
@@ -36,7 +37,7 @@ app.use(
 //Routes
 app.use(require("./routes/index"));
 //Sstatic files
-
+app.use(express.static(path.join(__dirname, "public")));
 // Start server
 app.listen(app.get("port"), () => {
   console.log(`Server on port ${app.get("port")} `);
