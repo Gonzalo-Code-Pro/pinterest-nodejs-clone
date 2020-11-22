@@ -12,11 +12,12 @@ app.set("view engine", "ejs");
 // Mindlewares
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
+
 const storage = multer.diskStorage({
   //funcion que se ejecutara cuando se suba y guarde una imagen
   destination: path.join(__dirname, "public/img/uploads"),
   filename: (req, file, cb, filename) => {
-    cb(null, uuidv4() + file.extname(file.originalname)); //concatenamos el id + la extension del archivo con extanme
+    cb(null, uuidv4() + path.extname(file.originalname)); //concatenamos el id + la extension del archivo con extanme
   },
 });
 
