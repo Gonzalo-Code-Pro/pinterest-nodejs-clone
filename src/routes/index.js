@@ -11,7 +11,8 @@ router.get("/upload", (req, res) => {
 });
 
 router.post("/upload", (req, res) => {
-  res.send("uploaded !!");
+  console.log(req.file);
+  res.send("Tu iamgen se subio !!!");
 });
 
 router.get("/image/:id", (req, res) => {
@@ -22,7 +23,6 @@ router.get("/image/:id/delete", (req, res) => {
   res.send("Image deleted");
 });
 //este es un cambio
-//
-//
+
 //este es un segundocambio xd
 module.exports = router;
