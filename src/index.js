@@ -5,8 +5,9 @@ const morgan = require("morgan"); //musetra informacion de un peticion http
 const multer = require("multer"); //modulo para la subida de imagenes
 const { v4: uuidv4 } = require("uuid");
 const database = require("./database");
+const { format } = require("timeago.js"); ///formatear la fecha
+const { constants } = require("buffer");
 //Initializations
-
 app.set("port", process.env.PORT || 4000);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -22,11 +23,7 @@ const storage = multer.diskStorage({
   },
 });
 
-//aqui muleter amacena normal
-//app.use(
-// multer({ dest: path.join(__dirname, "public/img/uploads") }).single("image")
-// );
-
+// multer({ dest: path.join(__dirname, "public/img/uploads") }).single(
 //aqui multer ahora guarda con un id u su extension
 app.use(
   multer({
@@ -34,11 +31,9 @@ app.use(
   }).single("image")
 );
 
-//Routes
-app.use(require("./routes/index"));
-//Sstatic files
-app.use(express.static(path.join(__dirname, "public")));
-// Start server
-app.listen(app.get("port"), () => {
-  console.log(`Server on port ${app.get("port")} `);
+//global variables(mindelwares) timeago
+app.use((req, res, next) => {
+  app.locals.format = format;
+  next();
 });
+//Routes app.use(require("./routes/index")); Sstatic files app.use(express.static(path.join(__dirname, "public"))); Start server app.listen(app.get("port"), () => { console.log(`Server on port ${app.get("port")} `); });

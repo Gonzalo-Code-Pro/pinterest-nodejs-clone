@@ -1,5 +1,5 @@
 const { Router } = require("express");
-
+const { unlink } = require("fs-extra");
 const router = Router();
 const Image = require("../models/image"); //recibimos el mnuevo modelo
 router.get("/", async (req, res) => {
@@ -11,7 +11,6 @@ router.get("/", async (req, res) => {
 router.get("/upload", (req, res) => {
   res.render("upload.ejs");
 });
-
 router.post("/upload", async (req, res) => {
   const newImage = new Image(); //utilizando una instancia del modelo
   newImage.title = req.body.title; //guardamos em titulo
@@ -25,12 +24,17 @@ router.post("/upload", async (req, res) => {
   res.redirect("/");
 });
 
-router.get("/image/:id", (req, res) => {
-  res.send("Iamge single");
+router.get("/image/:id", async (req, res) => {
+  const { id } = req.params;
+  const image = await Image.findById(id);
+
+  res.render("profile", { image: image });
 });
 
-router.get("/image/:id/delete", (req, res) => {
-  res.send("Image deleted");
+router.get("/image/:id/delete", async (req, res) => {
+  const { id } = req.params;
+  await Image.findOneAndDelete(id);
+  unlink(path.resolve("./src/public"));
 });
 //este es un cambio
 
